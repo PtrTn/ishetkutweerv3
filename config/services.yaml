@@ -5,6 +5,10 @@
 # https://symfony.com/doc/current/best_practices/configuration.html#application-related-configuration
 parameters:
     locale: 'en'
+    buienradar_url: 'http://xml.buienradar.nl/'
+    buienradar_gps_url: 'http://gps.buienradar.nl/getrr.php'
+    cache_dir: '%kernel.project_dir%/var/data/cache'
+    cache_ttl: 900
 
 services:
     # default configuration for services in *this* file
@@ -29,3 +33,52 @@ services:
 
     # add more service definitions when explicit configuration is needed
     # please note that last definitions always *replace* previous ones
+    App\ForecastData\ForecastDataSource:
+        arguments:
+            $overcast: '@VertigoLabs\Overcast\Overcast'
+
+    App\HistoricData\HistoryDataSource:
+        arguments:
+            $dataFactory: '@App\HistoricData\HistoryDataFactory'
+
+    App\RainData\RainDataSource:
+        arguments:
+            $dataFactory: '@App\RainData\RainDataFactory'
+            $httpClient: '@App\HttpClients\GuzzleClient'
+            $baseUrl: '%buienradar_gps_url%'
+
+    App\PresentData\PresentDataSource:
+        arguments:
+            $dataFactory: '@App\PresentData\PresentDataFactory'
+            $httpClient: '@App\HttpClients\GuzzleClient'
+            $apiUrl: '%buienradar_url%'
+
+    App\Location\LocationDataSource:
+        arguments:
+            $dataFactory: '@App\Location\LocationDataFactory'
+
+    App\Station\StationFinder:
+        arguments:
+            $distanceCalc: '@JeroenDesloovere\Distance\Distance'
+
+    JeroenDesloovere\Distance\Distance:
+        class: JeroenDesloovere\Distance\Distance
+
+    VertigoLabs\Overcast\Overcast:
+        class: VertigoLabs\Overcast\Overcast
+        arguments:
+            $apiKey: '%env(FORECAST_API_KEY)%'
+
+    GuzzleHttp\Client:
+        class: GuzzleHttp\Client
+
+    App\HttpClients\GuzzleClient:
+        class: App\HttpClients\GuzzleClient
+        arguments:
+            $client: '@GuzzleHttp\Client'
+
+    App\CacheProviders\FilesystemCacheProvider:
+        class: App\CacheProviders\FilesystemCacheProvider
+        arguments:
+            $folder: '%cache_dir%'
+            $cacheTtl: '%cache_ttl%'
