@@ -1,0 +1,76 @@
+<style>
+</style>
+<div id="table" class="block" ng-controller="forecastCtrl">
+    <div class="text-summary">
+        <p class="short-msg">{{ presentData.getShortMsg() }}</p>
+        <p class="long-msg">{{ presentData.getLongMsg() }}</p>
+        <span class="more" ng-click="toggleSummaryMsg()">
+            <i class="fa fa-angle-right"></i>
+            <span>Meer</span>
+        </span>
+    </div>
+    <div class="forecast">
+        <table id="week">
+            <thead>
+            <tr>
+                <th></th>
+                <th></th>
+                <th>
+                    <i class="pe-7w-thermometer-1-2"></i>
+                </th>
+                <th>
+                    <i class="pe-7w-umbrella"></i>
+                </th>
+                <th>
+                    <i class="pe-7w-wind"></i>
+                </th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for day in forecastData.getDataBlocks() %}
+                {% if loop.index > 5 %}
+                    <tr class="extra">
+                {% else %}
+                    <tr>
+                {% endif %}
+                <td class="indicator {{ forecastRatings.getByDate(day.getDate()).getOverall() }}">
+                    <div>
+                        <p>{{ forecastRatings.getByDate(day.getDate()).getShortMessage() }}</p>
+                    </div>
+                </td>
+                {% if loop.index == 1 %}
+                    <td>Vandaag
+                {% elseif loop.index == 2 %}
+                    <td>Morgen
+                {% else %}
+                    <td>{{ day.getDayname() }}
+                {% endif %}
+                <p class="date">{{ day.getFormattedDate() }}</p></td>
+                <td>
+                    <div class="max-temp">
+                        <span class="value">{{ day.getTempMax() }}</span>
+                        <span class="suffix">&deg;C</span>
+                    </div>
+                    <div class="min-temp">
+                        <span class="value">{{ day.getTempMin() }}</span>
+                        <span class="suffix">&deg;C</span>
+                    </div>
+                </td>
+                <td>
+                    <span class="value">{{ day.getRainProb() }}</span>
+                    <span class="suffix">%</span>
+                </td>
+                <td>
+                    <span class="value">{{ day.getBeaufort() }}</span>
+                    <span class="suffix">bft</span>
+                </td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+        <span class="more" ng-click="toggleMore()">
+            <i class="fa fa-angle-right"></i>
+            <span>Meer</span>
+        </span>
+    </div>
+</div>
