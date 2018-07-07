@@ -13,6 +13,9 @@
     <!-- Styles -->
     <link href='http://fonts.googleapis.com/css?family=Montserrat:400,700' rel='stylesheet' type='text/css'>
     <link rel="stylesheet" href="{{ asset('build/app.css') }}"/>
+    <script src="{{ asset('build/manifest.js') }}"></script>
+    <script src="{{ asset('build/js/vendor.js') }}"></script>
+    <script src="{{ asset('build/js/app.js') }}"></script>
     <script src="{{ asset('build/app.js') }}"></script>
     {% if app.debug == false %}
         {% include 'partials/analytics.twig' %}
