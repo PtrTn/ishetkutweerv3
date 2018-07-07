@@ -1,0 +1,153 @@
+#summary {
+  background-size: cover;
+  position: relative;
+
+  .header {
+    width: 100%;
+    margin: 20px 0;
+    overflow: auto;
+
+    .payoff {
+      font-size: 40px;
+      color: white;
+      padding: 10px;
+      text-align: center;
+
+      &.good {
+        background-color: $green;
+      }
+      &.meh {
+        background-color: $yellow;
+      }
+      &.bad {
+        background-color: $red
+      }
+    }
+    .stationName, .measureTime {
+      width: 30%;
+      background-color: white;
+      text-align: center;
+      padding: 10px;
+      display: table;
+
+      i {
+        font-size: 25px;
+        padding-right: 10px;
+        width: 20px;
+      }
+      i, span {
+        display: table-cell;
+        vertical-align: middle;
+      }
+    }
+    .stationName {
+      float: left;
+
+      &:hover {
+        background-color: $gray;
+        transition: 0.3s;
+        cursor: pointer;
+      }
+    }
+    .measureTime {
+      float: right;
+    }
+  }
+}
+
+.measurement {
+  float: left;
+  width: 30%;
+  text-align: center;
+  height: 250px;
+  position: relative;
+  overflow: hidden;
+
+  &:hover .average {
+    left: 0;
+    transition: 0.7s;
+  }
+  &:hover .indicator {
+    left: 100%;
+    transition: 0.7s;
+  }
+  .average {
+    position: absolute;
+    left: -100%;
+    height: 65%;
+    width: 100%;
+    color: white;
+    transition: 0.7s;
+    display: table;
+
+    .value-container {
+      display: table-cell;
+      vertical-align: middle;
+
+      .value {
+        font-size: 40px;
+      }
+    }
+  }
+  .indicator {
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 65%;
+    width: 100%;
+    color: white;
+    transition: 1s;
+
+    p {
+      height: 20%;
+      text-align: left;
+      margin-left: 20px;
+    }
+    .icon-container {
+      height: 80%;
+      width: 100%;
+      display: table;
+
+      i {
+        display: table-cell;
+        vertical-align: middle;
+        font-size: 100px;
+      }
+    }
+  }
+  .indicator-value {
+    background-color: white;
+    height: 35%;
+    width: 100%;
+    display: table;
+    position: absolute;
+    bottom: 0;
+    left: 0;
+
+    .value-container {
+      display: table-cell;
+      vertical-align: middle;
+
+      .value {
+        clear: both;
+        font-size: 40px;
+      }
+    }
+  }
+  &:not(:first-child):not(:last-child) {
+    margin: 0 5%;
+  }
+  &.good {
+    background-color: $green;
+  }
+  &.meh {
+    background-color: $yellow;
+  }
+  &.bad {
+    background-color: $red;
+  }
+}
+.measurements {
+  clear: both;
+  overflow: auto;
+}
